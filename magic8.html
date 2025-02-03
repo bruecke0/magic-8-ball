@@ -2,56 +2,115 @@
 <html lang="en">
 <head>
     <style>
-        body {background-color: rgb(255, 16, 240);}
+        /* body {background-color: rgb(255, 16, 240);} 
         h1 {text-align: center;}
         h1 {font-size: xx-large;}
         h1 {font-family: 'Lucida Sans';}
         h3 {font-family: 'Lucida Sans';}
-        p {color: rgb(57, 255, 20);}
+
+        p {
+            color: rgb(57, 255, 20);
+        }
+
+        .image-button {
+            border: none;
+            background: none;
+        } */
         
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maagiline Pall</title>
+    <link rel="stylesheet" href="magic8.css">
     <script>
         function randomResponse(){
             const responses = [
-            "IT IS CERTAIN",
-            "IT IS DECIDEDLY SO",
-            "WITHOUT A DOUBT",
-            "YES DEFINITELY",
-            "YOU MAY RELY ON IT",
-            "AS I SEE IT, YES",
-            "MOST LIKELY", 
-            "OUTLOOK GOOD", 
-            "YES", 
-            "SIGNS POINT TO YES", 
-            "REPLY HAZY, TRY AGAIN", 
-            "ASK AGAIN LATER", 
-            "BETTER NOT TELL YOU NOW", 
-            "CANNOT PREDICT NOW", 
-            "CONCENTRATE AND ASK AGAIN", 
-            "DON'T COUNT ON IT", 
-            "MY REPLY IS NO", 
-            "MY SOURCES SAY NO", 
-            "OUTLOOK NOT SO GOOD", 
-            "VERY DOUBTFUL"
+            "IT IS CERTAIN", "IT IS DECIDEDLY SO", "WITHOUT A DOUBT",
+            "YES DEFINITELY", "YOU MAY RELY ON IT", "AS I SEE IT, YES",
+            "MOST LIKELY", "OUTLOOK GOOD", "YES", "SIGNS POINT TO YES", 
+            "REPLY HAZY, TRY AGAIN", "ASK AGAIN LATER", "BETTER NOT TELL YOU NOW", 
+            "CANNOT PREDICT NOW", "CONCENTRATE AND ASK AGAIN", "DON'T COUNT ON IT", 
+            "MY REPLY IS NO", "MY SOURCES SAY NO", "OUTLOOK NOT SO GOOD", "VERY DOUBTFUL"
             ];
 
             let userInput = document.getElementById("userInput").value;
 
+            
             let randomIndex = Math.floor(Math.random() * responses.length);
             let randomResponse = responses[randomIndex];
-
+            
+            if (userInput === ""){
+                randomResponse = "Insert a question blyat >:("
+            }
             document.getElementById("output").innerText = randomResponse;
         }
+
     </script>
 </head>
 <body>
-    <h1>MAAGILINE PALL</h1>
-    <input type="text", id = "userInput">
-    <button onclick="randomResponse()">Get Answer</button>
-    <h3>Response:</h3>
-    <p id="output"></p>
+    <div class="giffer">
+        <image src="gifff/7af458bc35898f4ffddc076491ea9a37.gif"></image>
+    </div>
+    
+    <div class="container">
+        <h1>MAGIC BALL </h1>
+        <input type="text", id = "userInput">
+        <button class="image-button" onclick="randomResponse()"> <input type="image" src="pildid/8_ball_icon.svg.png" width="36"></button>
+        <h3>Response:</h3>
+        <p id="output"></p>
+    
+        <button id="playButton">Play Music</button>
+        <button id="muteButton">Mute</button>
+        <input type="range" id="volumeSlider" min="0" max="100" value="25">
+    
+        <audio id="bgMusic" ></audio>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const muusika = [
+                "taustamuusika/Cosmogonie.mp3",
+                "taustamuusika/L'Impératrice  Amour Ex Machina [Audio Video].mp3",
+                "taustamuusika/L'Impératrice  Any Way (feat Maggie Rogers).mp3",
+                "taustamuusika/L'Impératrice  Danza Marilù (feat. Fabiana Martone).mp3",
+                "taustamuusika/L'Impératrice  Déjà-vue [Audio Video].mp3",
+                "taustamuusika/L'Impératrice  Girl! [Audio Video].mp3",
+                "taustamuusika/L'Impératrice  Love from the Other Side [Audio Video].mp3",
+                "taustamuusika/L'Impératrice  Me Da Igual (Lyric Video).mp3",
+                "taustamuusika/L'Impératrice  Pulsar [Audio Video].mp3",
+                "taustamuusika/L'Impératrice  Sweet & Sublime (feat Erick the Architect) Official Music Video.mp3"
+            ];
+            const audioPlayer = document.getElementById("bgMusic");
+            const playButton = document.getElementById("playButton");
+            const muteButton = document.getElementById("muteButton");
+            const volumeSlider = document.getElementById("volumeSlider");
+
+
+            const randomSong = muusika[Math.floor(Math.random() * muusika.length)];
+            audioPlayer.src = randomSong;
+
+            audioPlayer.volume = 0.3
+            volumeSlider.value = 30
+            
+            playButton.addEventListener("click", function() {
+                audioPlayer.play().catch(error => console.log("Autoplay blocked:", error));
+            });
+
+            // mute ja unmute
+            muteButton.addEventListener("click", function () {
+                audioPlayer.muted = !audioPlayer.muted;
+                muteButton.innerText = audioPlayer.muted ? "Unmute" : "Mute";
+            });
+
+            // heli
+            volumeSlider.addEventListener("input", function() {
+                audioPlayer.volume = volumeSlider.value / 100;
+            });
+
+            // Handle audio loading errors
+            audioPlayer.onerror = function () {
+                console.log("Error loading audio: " + randomSong);
+            };
+        });
+    </script>
 </body>
 </html>
